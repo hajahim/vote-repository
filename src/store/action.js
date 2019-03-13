@@ -1,6 +1,7 @@
 
 import Candidates from '../api/Candidates'
 import Elections from '../api/Elections'
+import Votes from '../api/Votes'
 
 export default {
   fetchCandidates ({commit}, playload) {
@@ -26,6 +27,16 @@ export default {
   getElectionByKey ({commit}, playload) {
     Elections.getElectionById(playload).then(election => {
       commit('GET_ELECTION_BY_KEY', election)
+    })
+  },
+  saveVotes ({commit}, playload) {
+    Votes.saveVotes(playload).then(votes => {
+      commit('SAVE_VOTES', votes)
+    })
+  },
+  getVotesByElection ({commit}, playload) {
+    Votes.getVotesByElectionId(playload).then(votes => {
+      commit('GET_VOTES_BY_ELECTION', votes)
     })
   }
 }

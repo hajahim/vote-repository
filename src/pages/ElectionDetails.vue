@@ -10,11 +10,12 @@
       <v2-table-column label="Fanampin'anarana" prop="firstName"></v2-table-column>
       <v2-table-column label="Sarangana" prop="gender"></v2-table-column>
       <v2-table-column label="Vote">
-        <template>
-          <button type="submit" class="btn btn-primary">Fidiko</button>
+        <template slot-scope="scope">
+          <button type="submit" class="btn btn-primary" @click="(event) => { saveVotes(event, scope) }">Fidiko</button>
         </template>
       </v2-table-column>
     </v2-table>
+    RESULT : {{getResult}}
   </form>
 </template>
 
@@ -27,10 +28,26 @@ export default {
     },
     getNumberVotesVictory () {
       return this.$store.getters.getNumberVotesVictory
+    },
+    getResult () {
+      return this.$store.state.getResultElection
     }
   },
   mounted () {
     this.$store.dispatch('getElectionByKey', this.$route.params.id)
+    this.$store.dispatch('getVotesByElection', this.$route.params.id)
+  },
+  methods: {
+    saveVotes: function (e, value) {
+      e.preventDefault()
+      const formData = {
+        candidat: value.row,
+        candidatId: value.row.id,
+        electionId: this.electionDisplay.id,
+        value: 1
+      }
+      this.$store.dispatch('saveVotes', formData)
+    }
   }
 }
 </script>

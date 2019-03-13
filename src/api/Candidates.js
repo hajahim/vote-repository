@@ -18,6 +18,23 @@ class Candidates extends IProvider {
     }
   }
 
+  async getCandidateById (id) {
+    try {
+      return new Promise((resolve, reject) => {
+        this.getCandidates().then(candidats => {
+          candidats.forEach(function (candidat) {
+            if (candidat.id.toLowerCase() === id.toLowerCase()) {
+              resolve(candidat)
+            }
+          })
+          resolve(null)
+        })
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   async saveCandidate (data) {
     try {
       data.id = this.generateID()

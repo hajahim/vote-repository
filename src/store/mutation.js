@@ -13,5 +13,11 @@ export default {
   },
   GET_ELECTION_BY_KEY: (state, playload) => {
     state.electionDisplay = playload
+  },
+  SAVE_VOTES: (state, playload) => {
+    state.votes = playload
+  },
+  GET_VOTES_BY_ELECTION: (state, playload) => {
+    state.votesElection = playload
   }
 }
