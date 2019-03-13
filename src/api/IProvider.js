@@ -6,6 +6,16 @@ class IProvider {
     this.HTTP = axios.create({
       baseURL: this.settings.Uri
     })
+    this.HTTP.interceptors.request.use(config => {
+      console.warn('START')
+      window.NProgress.start()
+      return config
+    })
+    // before a response is returned stop nprogress
+    this.HTTP.interceptors.response.use(response => {
+      window.NProgress.done()
+      return response
+    })
   }
 
   generateID () {

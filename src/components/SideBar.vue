@@ -3,7 +3,14 @@
     <button v-on:click="toggle" class="m-sidebar-close-trigger">
       <i class="fa fa-toggle-on m-sidebar-close" aria-hidden="true"></i>
     </button>
-    <h2> Fifidianana </h2>
+    <h2> Loha hevitra </h2>
+    <div class="m-page-manager">
+      <div class="card-header" id="headingOne">
+        <router-link class="btn btn-link" to="/">
+          Pejy fandraisana
+        </router-link>
+      </div>
+    </div>
     <div class="m-page-manager">
       <div class="card-header" id="headingOne">
         <router-link class="btn btn-link" to="/createElection">

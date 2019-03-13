@@ -1,7 +1,7 @@
 <template>
-  <div class="hello">
-    <img src="../assets/logo.png" alt="logo" />
-    <h1>{{ msg }}</h1>
+  <div class="l_hello">
+    <img src="../assets/logo.png" alt="logo" width="150" />
+    <h1 class="l_hello_title">{{ msg }}</h1>
   </div>
 </template>
 
@@ -24,6 +24,13 @@ h1, h2 {
 ul {
   list-style-type: none;
   padding: 0;
+}
+.l_hello {
+  display: flex;
+  align-items: center;
+}
+.l_hello_title {
+  margin-left: 30px;
 }
 li {
   display: inline-block;

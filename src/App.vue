@@ -36,7 +36,7 @@ export default {
   }
 
   .l-page-content {
-    padding: 20px;
+    padding: 40px;
     width: 100%;
   }
 
