@@ -16,7 +16,7 @@ export default new Vuex.Store({
   getters: {
     getNumberVotesVictory: state => {
       if (state.electionDisplay) {
-        return (state.electionDisplay.voterNumber - state.electionDisplay.candidats.length) / 2
+        return (state.electionDisplay.voterNumber - state.electionDisplay.candidats.length) / 2 + 1
       }
       return 0
     },
@@ -28,10 +28,17 @@ export default new Vuex.Store({
           const regexSearch = new RegExp(candidat.id, 'g')
           const dataUser = {}
           dataUser.candidat = candidat
-          dataUser.numberVote = votesElectionSearch.match(regexSearch)
+          dataUser.numberVote = votesElectionSearch.match(regexSearch) ? votesElectionSearch.match(regexSearch).length : 0
           result.push(dataUser)
         })
-        return result
+        let sortedResult = result.sort(function (previous, next) {
+          return next.numberVote - previous.numberVote
+        })
+        sortedResult.forEach(function (votes, index) {
+          votes.order = index + 1
+          return votes
+        })
+        return sortedResult
       }
       return null
     }

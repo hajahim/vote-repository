@@ -15,7 +15,30 @@
         </template>
       </v2-table-column>
     </v2-table>
-    RESULT : {{getResult}}
+    <hr/>
+    <h3> Valim'mpifidianana  </h3>
+    <v2-table :data="getResult" border v-if="getResult">
+      <v2-table-column label="Laharana">
+        <template slot-scope="scope">
+          {{scope.row.order}}
+        </template>
+      </v2-table-column>
+      <v2-table-column label="Vato Azo">
+        <template slot-scope="scope">
+          {{scope.row.numberVote}}
+        </template>
+      </v2-table-column>
+      <v2-table-column label="Anarana">
+        <template slot-scope="scope">
+          {{scope.row.candidat.name}}
+        </template>
+      </v2-table-column>
+      <v2-table-column label="Fanampin'anarana">
+        <template slot-scope="scope">
+          {{scope.row.candidat.firstName}}
+        </template>
+      </v2-table-column>
+    </v2-table>
   </form>
 </template>
 
@@ -30,7 +53,7 @@ export default {
       return this.$store.getters.getNumberVotesVictory
     },
     getResult () {
-      return this.$store.state.getResultElection
+      return this.$store.getters.getResultElection
     }
   },
   mounted () {
@@ -42,7 +65,6 @@ export default {
       e.preventDefault()
       const formData = {
         candidat: value.row,
-        candidatId: value.row.id,
         electionId: this.electionDisplay.id,
         value: 1
       }
