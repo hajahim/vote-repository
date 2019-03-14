@@ -11,7 +11,9 @@ export default new Vuex.Store({
     elections: [],
     votes: [],
     votesElection: [],
-    electionDisplay: null
+    electionDisplay: null,
+    isSent: false,
+    isSaved: false
   },
   getters: {
     getNumberVotesVictory: state => {

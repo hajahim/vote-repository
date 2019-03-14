@@ -12,7 +12,7 @@
         </router-link>
       </md-list-item>
       <md-list-item>
-        <md-icon>menu</md-icon>
+        <md-icon>add</md-icon>
         <router-link class="md-list-item-text" to="/createElection">
           Fifidianana vaovao
         </router-link>
@@ -24,7 +24,7 @@
         </router-link>
       </md-list-item>
       <md-list-item>
-        <md-icon>menu</md-icon>
+        <md-icon>add</md-icon>
         <router-link class="md-list-item-text" to="/createCandidate">
           Mampiditra Olona ho fidiana
         </router-link>

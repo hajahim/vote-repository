@@ -8,6 +8,12 @@ export default {
   SAVE_CANDIDATE: (state, playload) => {
     state.candidates.push(playload)
   },
+  UPDATE_STATUS_SEND: (state, playload) => {
+    state.isSent = playload
+  },
+  UPDATE_STATUS_SAVED: (state, playload) => {
+    state.isSaved = playload
+  },
   SAVE_ELECTION: (state, playload) => {
     state.elections.push(playload)
   },

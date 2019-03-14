@@ -12,7 +12,15 @@ export default {
   saveCandidate ({commit}, playload) {
     Candidates.saveCandidate(playload).then(candidate => {
       commit('SAVE_CANDIDATE', candidate)
+      commit('UPDATE_STATUS_SEND', false)
+      commit('UPDATE_STATUS_SAVED', false)
     })
+  },
+  updateStatusSave ({commit}, playload) {
+    commit('UPDATE_STATUS_SAVED', playload)
+  },
+  updateStatusSend ({commit}, playload) {
+    commit('UPDATE_STATUS_SEND', playload)
   },
   fetchElections ({commit}, playload) {
     Elections.getElections().then(elections => {
