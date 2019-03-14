@@ -4,41 +4,38 @@
       <i class="fa fa-toggle-on m-sidebar-close" aria-hidden="true"></i>
     </button>
     <h2> Loha hevitra </h2>
-    <div class="m-page-manager">
-      <div class="card-header" id="headingOne">
-        <router-link class="btn btn-link" to="/">
+    <md-list class="menu_list">
+      <md-list-item>
+        <md-icon>menu</md-icon>
+        <router-link class="md-list-item-text" to="/">
           Pejy fandraisana
         </router-link>
-      </div>
-    </div>
-    <div class="m-page-manager">
-      <div class="card-header" id="headingOne">
-        <router-link class="btn btn-link" to="/createElection">
+      </md-list-item>
+      <md-list-item>
+        <md-icon>menu</md-icon>
+        <router-link class="md-list-item-text" to="/createElection">
           Fifidianana vaovao
         </router-link>
-      </div>
-    </div>
-    <div class="m-page-manager">
-      <div class="card-header" id="headingOne">
-        <router-link class="btn btn-link" to="/listElections">
+      </md-list-item>
+      <md-list-item>
+        <md-icon>menu</md-icon>
+        <router-link class="md-list-item-text" to="/listElections">
           Lisitry ny fifidianana
         </router-link>
-      </div>
-    </div>
-    <div class="m-page-manager">
-      <div class="card-header" id="headingOne">
-        <router-link class="btn btn-link" to="/createCandidate">
+      </md-list-item>
+      <md-list-item>
+        <md-icon>menu</md-icon>
+        <router-link class="md-list-item-text" to="/createCandidate">
           Mampiditra Olona ho fidiana
         </router-link>
-      </div>
-    </div>
-    <div class="m-tag-manager">
-      <div class="card-header" id="headingOne">
-        <router-link class="btn btn-link" to="/listeCandidate">
+      </md-list-item>
+      <md-list-item>
+        <md-icon>menu</md-icon>
+        <router-link class="md-list-item-text" to="/listeCandidate">
           Lisitra ny olona ho fidiana
         </router-link>
-      </div>
-    </div>
+      </md-list-item>
+    </md-list>
   </section>
 </template>
 
@@ -86,7 +83,7 @@ export default {
     position: absolute;
     display: none;
     padding: 0 4px;
-    right: -30px;
+    right: -27px;
     top: 0;
 
     @media screen and (min-width: 769px) {
@@ -98,6 +95,10 @@ export default {
     &:hover {
       outline: none;
     }
+  }
+
+  .menu_list {
+    background: none;
   }
 
   .m-sidebar-close {

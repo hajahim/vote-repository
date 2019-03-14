@@ -2,8 +2,9 @@
   <form>
     <h3> Fifidianana {{electionDisplay.description}} </h3>
     <hr/>
-    <p v-if="electionDisplay.candidats"> Isan'ny ho fidiana : {{electionDisplay.candidats.length}}</p>
+    <p v-if="electionDisplay.candidats"> Isan'ny nilatsaka : {{electionDisplay.candidats.length}}</p>
     <p v-if="electionDisplay.voterNumber"> Isan'ny mpifidy : {{electionDisplay.voterNumber}}</p>
+    <p v-if="electionDisplay.voted"> Isan'ny ho fidiana : {{electionDisplay.voted}}</p>
     <p v-if="getNumberVotesVictory"> Atsasan'manila : {{getNumberVotesVictory}}</p>
     <v2-table :data="electionDisplay.candidats" border>
       <v2-table-column label="Anarana" prop="name"></v2-table-column>
@@ -17,7 +18,7 @@
     </v2-table>
     <hr/>
     <h3> Valim'mpifidianana  </h3>
-    <v2-table :data="getResult" border v-if="getResult">
+    <v2-table :data="getResult" border v-if="getResult" :row-class-name="getRowClassName">
       <v2-table-column label="Laharana">
         <template slot-scope="scope">
           {{scope.row.order}}
@@ -69,10 +70,19 @@ export default {
         value: 1
       }
       this.$store.dispatch('saveVotes', formData)
+    },
+    getRowClassName ({row, rowIndex}) {
+      if (rowIndex < this.electionDisplay.voted) {
+        return 'warning-row'
+      }
+      return ''
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.warning-row {
+  background-color: #ff33;
+}
 </style>

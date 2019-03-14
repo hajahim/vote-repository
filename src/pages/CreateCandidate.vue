@@ -1,25 +1,42 @@
 <template>
-  <form>
-    <h3> Ampiana mpandray anjara </h3>
-    <hr/>
-    <fieldset class="form-group">
-      <label for="candidateName" class="bmd-label-floating">Anarana</label>
-      <input type="text" class="form-control" id="candidateName" v-model="candidate.name" aria-describedby="candidateNameHelp">
-      <span id="candidateNameHelp" class="bmd-help">Ampidiro eto ny anaran ny candidat.</span>
-    </fieldset>
-    <fieldset class="form-group">
-      <label for="candidateFirstNae" class="bmd-label-floating">Fanampin' Anarana</label>
-      <input type="text" class="form-control" id="candidateFirstNae" v-model="candidate.firstName" aria-describedby="candidateFirstNameHelp">
-      <span id="candidateFirstNameHelp" class="bmd-help">Ampidiro eto ny fanampiny anarana ny candidat.</span>
-    </fieldset>
-    <fieldset class="form-group">
-      <select class="custom-select" size="3" v-model="candidate.gender">
-        <option value="" disabled selected>Ny sarangany</option>
-        <option value="M">Lahy</option>
-        <option value="F">Vehivavy</option>
-      </select>
-    </fieldset>
-    <button type="submit" class="btn btn-primary submit-button" v-on:click="saveCandidat">Ampidirina</button>
+  <form novalidate class="md-layout" @submit.prevent="validateUser">
+    <md-card class="md-layout-item">
+      <md-card-header>
+        <div class="md-title">Mpandray anjara vaovao</div>
+      </md-card-header>
+      <md-card-content>
+        <div class="md-layout">
+          <div class="md-layout-item">
+            <md-field>
+              <label for="candidateName">Anarana</label>
+              <md-input name="candidateName" id="candidateName" autocomplete="candidateName" v-model="candidate.name"/>
+            </md-field>
+          </div>
+        </div>
+        <div class="md-layout">
+          <div class="md-layout-item">
+            <md-field>
+              <label for="candidateFirstNae">Fanampiny ny Anarana</label>
+              <md-input name="candidateFirstNae" id="candidateFirstNae" autocomplete="candidateFirstNae" v-model="candidate.firstName"/>
+            </md-field>
+          </div>
+        </div>
+        <div class="md-layout">
+          <div class="md-layout-item">
+            <md-field>
+              <label for="candidatGender">Sarangana</label>
+              <md-select v-model="candidate.gender" name="candidatGender" id="candidatGender">
+                <md-option value="Lahy">Lahy</md-option>
+                <md-option value="Vavy">Vehivavy</md-option>
+              </md-select>
+              </md-field>
+          </div>
+        </div>
+      </md-card-content>
+      <md-card-actions class="form_action">
+        <md-button type="submit" class="md-raised md-primary" v-on:click="saveCandidat">Ampidirina</md-button>
+      </md-card-actions>
+    </md-card>
   </form>
 </template>
 

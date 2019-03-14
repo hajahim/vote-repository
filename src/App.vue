@@ -53,4 +53,13 @@ export default {
   .submit-button {
     margin-top: 30px;
   }
+
+  @import "~vue-material/dist/theme/engine"; // Import the theme engine
+
+  @include md-register-theme("default", (
+    primary: #11769C, // The primary color of your brand
+    accent: #BBC241 // The secondary color of your brand
+  ));
+
+  @import "~vue-material/dist/theme/all";
 </style>
