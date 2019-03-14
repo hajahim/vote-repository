@@ -30,6 +30,8 @@ export default {
   saveElection ({commit}, playload) {
     Elections.saveElections(playload).then(election => {
       commit('SAVE_ELECTION', election)
+      commit('UPDATE_STATUS_SEND', false)
+      commit('UPDATE_STATUS_SAVED', false)
     })
   },
   getElectionByKey ({commit}, playload) {
