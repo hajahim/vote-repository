@@ -6,7 +6,7 @@
     <h2> Loha hevitra </h2>
     <md-list class="menu_list">
       <md-list-item>
-        <md-icon>menu</md-icon>
+        <md-icon>home</md-icon>
         <router-link class="md-list-item-text" to="/">
           Pejy fandraisana
         </router-link>
