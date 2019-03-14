@@ -40,6 +40,9 @@ export default {
   saveVotes ({commit}, playload) {
     Votes.saveVotes(playload).then(votes => {
       commit('SAVE_VOTES', votes)
+      Votes.getVotesByElectionId(votes.electionId).then(election => {
+        commit('GET_VOTES_BY_ELECTION', election)
+      })
     })
   },
   getVotesByElection ({commit}, playload) {
