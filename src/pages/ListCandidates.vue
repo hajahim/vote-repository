@@ -1,5 +1,6 @@
 <template>
   <div class="l_candidates_listing">
+    <div class="md-title">Lisitry ny ho fidiana</div>
     <v2-table :data="candidates" border>
       <v2-table-column label="Anarana" prop="name"></v2-table-column>
       <v2-table-column label="Fanampin'anarana" prop="firstName"></v2-table-column>
@@ -32,5 +33,12 @@ export default {
 <style scoped>
 .l_candidates_listing {
   margin-top: 20px;
+}
+.md-title {
+  margin-bottom: 30px;
+  color: #fff;
+  background-color: var(--md-theme-default-accent, #BBC241);
+  padding: 5px;
+  margin-bottom: 30px;
 }
 </style>

@@ -1,5 +1,6 @@
 <template>
   <div class="l_elections_listing">
+    <div class="md-title">Lisitry ny fifidianana</div>
     <v2-table @select-change="selectElections" :data="elections" border>
       <v2-table-column
         type="selection"
@@ -40,5 +41,11 @@ export default {
 <style scoped>
 .l_elections_listing {
   margin-top: 20px;
+}
+.md-title {
+  color: #fff;
+  background-color: var(--md-theme-default-accent, #BBC241);
+  padding: 5px;
+  margin-bottom: 30px;
 }
 </style>
