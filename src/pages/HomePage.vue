@@ -5,6 +5,13 @@
       <h1 class="l_hello_title">{{ msg }}</h1>
     </div>
     <p class="l_text"> {{description}} </p>
+    <figure class="quote">
+      <blockquote class="curly-quotes" cite="https://www.youtube.com/watch?v=qYLrc9hy0t0">
+        Dia toy izany koa amin'izao andro ankehitriny
+        izao misy sisa ihany araka ny fifidianana amin'ny fahasoavana.
+      </blockquote>
+      <figcaption class="quote-by">— Romana 11: 5</figcaption>
+    </figure>
     <div class="l_menu">
       <md-card class="md-primary" md-with-hover>
         <md-ripple>
@@ -148,4 +155,40 @@ li {
 .default-card {
   color: #fff !important;
 }
+.quote {
+  font-family: Georgia, serif;
+  font-size: 14px;
+  max-width: 480px;
+}
+
+.curly-quotes:before, .curly-quotes:after {
+  display: inline-block;
+  vertical-align: top;
+  height: 30px;
+  line-height: 48px;
+  font-size: 50px;
+  opacity: .2;
+}
+
+.curly-quotes:before {
+  content: '\201C';
+  margin-right: 4px;
+  margin-left: -8px;
+}
+
+.curly-quotes:after {
+  content: '\201D';
+  margin-left: 4px;
+  margin-right: -8px;
+}
+
+.quote-by {
+  display: block;
+  padding-right: 10px;
+  text-align: right;
+  font-size: 13px;
+  font-style: italic;
+  color: #84775c;
+}
+
 </style>

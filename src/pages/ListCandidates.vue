@@ -37,7 +37,7 @@ export default {
 .md-title {
   margin-bottom: 30px;
   color: #fff;
-  background-color: var(--md-theme-default-accent, #BBC241);
+  background-color: #9C27B0;
   padding: 5px;
   margin-bottom: 30px;
 }
