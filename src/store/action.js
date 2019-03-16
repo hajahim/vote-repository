@@ -90,7 +90,7 @@ export default {
             return votes
           })
           election.result = sortedResult.slice(0, election.voted).map(result => {
-            return `${result.candidat.name} ${result.candidat.firstName} <br/>`
+            return `${result.candidat.name} ${result.candidat.firstName} (${result.numberVote}) <br/>`
           })
         })
         commit('GET_ELECTION_GROUP_BY_KEY', electionGroup)
