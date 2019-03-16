@@ -35,6 +35,18 @@
           Lisitry ny olona ho fidiana
         </router-link>
       </md-list-item>
+      <md-list-item>
+        <md-icon>add</md-icon>
+        <router-link class="md-list-item-text" to="/createElectionGroup">
+          Mampiditra sokajy fifidianana
+        </router-link>
+      </md-list-item>
+      <md-list-item>
+        <md-icon>menu</md-icon>
+        <router-link class="md-list-item-text" to="/listElectionsGroup">
+          Lisitry ny sokajin'fifidianana
+        </router-link>
+      </md-list-item>
     </md-list>
   </section>
 </template>

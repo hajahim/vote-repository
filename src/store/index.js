@@ -9,10 +9,12 @@ export default new Vuex.Store({
   state: {
     candidates: [],
     elections: [],
+    electionsGroup: [],
     votes: [],
     loading: true,
     votesElection: [],
     electionDisplay: null,
+    electionGroupDisplay: null,
     isSent: false,
     isSaved: false
   },

@@ -26,14 +26,14 @@
       </row>
     </skeleton-loading>
     <div class="l_elections_listing" v-if="!loading">
-      <div class="md-title">Lisitry ny fifidianana</div>
-      <v2-table @select-change="selectElections" :data="elections" border>
+      <div class="md-title">Lisitry ny sokajin'fifidianana</div>
+      <v2-table @select-change="selectElectionsGroup" :data="electionsGroup" border>
         <v2-table-column
           type="selection"
           width="45">
         </v2-table-column>
-        <v2-table-column label="Momban'ny fifidianana" prop="description"></v2-table-column>
-        <v2-table-column label="Mariky ny fifidianana" prop="id"></v2-table-column>
+        <v2-table-column label="Momban'ny sokajin'fifidianana" prop="description"></v2-table-column>
+        <v2-table-column label="Mariky ny sokay" prop="id"></v2-table-column>
       </v2-table>
     </div>
   </div>
@@ -47,10 +47,10 @@ import Vue from 'vue'
 
 Vue.use(V2Table)
 export default {
-  name: 'ListElections',
+  name: 'ListElectionsGroup',
   computed: {
-    elections () {
-      return this.$store.state.elections
+    electionsGroup () {
+      return this.$store.state.electionsGroup
     },
     loading () {
       return this.$store.state.loading
@@ -58,11 +58,11 @@ export default {
   },
   beforeMount () {
     this.$store.dispatch('updateLoadingStatus', true)
-    this.$store.dispatch('fetchElections')
+    this.$store.dispatch('fetchElectionsGroup')
   },
   methods: {
-    selectElections (election) {
-      this.$router.push(`/electionDetails/${election[0].id}`)
+    selectElectionsGroup (electionGroup) {
+      this.$router.push(`/electionGroupDetails/${electionGroup[0].id}`)
     }
   }
 }

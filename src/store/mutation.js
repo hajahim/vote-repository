@@ -5,6 +5,9 @@ export default {
   FETCH_ELECTIONS: (state, playload) => {
     state.elections = playload
   },
+  FETCH_ELECTIONS_GROUP: (state, playload) => {
+    state.electionsGroup = playload
+  },
   SAVE_CANDIDATE: (state, playload) => {
     state.candidates.push(playload)
   },
@@ -20,8 +23,14 @@ export default {
   SAVE_ELECTION: (state, playload) => {
     state.elections.push(playload)
   },
+  SAVE_ELECTION_GROUP: (state, playload) => {
+    state.electionsGroup.push(playload)
+  },
   GET_ELECTION_BY_KEY: (state, playload) => {
     state.electionDisplay = playload
+  },
+  GET_ELECTION_GROUP_BY_KEY: (state, playload) => {
+    state.electionGroupDisplay = playload
   },
   SAVE_VOTES: (state, playload) => {
     state.votes = playload

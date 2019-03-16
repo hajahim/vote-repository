@@ -5,8 +5,11 @@ import HomePage from '@/pages/HomePage'
 import ListCandidates from '@/pages/ListCandidates'
 import CreateCandidate from '@/pages/CreateCandidate'
 import CreateElection from '@/pages/CreateElection'
+import CreateElectionGroup from '@/pages/CreateElectionGroup'
 import ListElections from '@/pages/ListElections'
+import ListElectionsGroup from '@/pages/ListElectionsGroup'
 import ElectionDetails from '@/pages/ElectionDetails'
+import ElectionGroupDetails from '@/pages/ElectionGroupDetails'
 
 Vue.use(VueSkeletonLoading)
 Vue.use(Router)
@@ -35,14 +38,29 @@ const router = new Router({
       component: CreateElection
     },
     {
+      path: '/createElectionGroup',
+      name: 'CreateElectionGroup',
+      component: CreateElectionGroup
+    },
+    {
       path: '/listElections',
       name: 'ListElections',
       component: ListElections
     },
     {
+      path: '/listElectionsGroup',
+      name: 'ListElectionsGroup',
+      component: ListElectionsGroup
+    },
+    {
       path: '/electionDetails/:id',
       name: 'ElectionDetails',
       component: ElectionDetails
+    },
+    {
+      path: '/electionGroupDetails/:id',
+      name: 'ElectionGroupDetails',
+      component: ElectionGroupDetails
     }
   ]
 })
