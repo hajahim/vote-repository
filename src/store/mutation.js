@@ -11,6 +11,9 @@ export default {
   UPDATE_STATUS_SEND: (state, playload) => {
     state.isSent = playload
   },
+  UPDATE_LOADING_STATUS: (state, playload) => {
+    state.loading = playload
+  },
   UPDATE_STATUS_SAVED: (state, playload) => {
     state.isSaved = playload
   },

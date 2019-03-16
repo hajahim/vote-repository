@@ -1,11 +1,38 @@
 <template>
-  <div class="l_candidates_listing">
-    <div class="md-title">Lisitry ny ho fidiana</div>
-    <v2-table :data="candidates" border>
-      <v2-table-column label="Anarana" prop="name"></v2-table-column>
-      <v2-table-column label="Fanampin'anarana" prop="firstName"></v2-table-column>
-      <v2-table-column label="Sarangana" prop="gender"></v2-table-column>
-    </v2-table>
+  <div>
+    <skeleton-loading v-if="loading">
+      <row
+        :gutter="{
+          bottom: '15px'
+        }"
+      >
+        <square-skeleton
+          :count="1"
+          :boxProperties="{
+            top: '10px',
+            height: '26px'
+          }"
+        >
+        </square-skeleton>
+      </row>
+      <row>
+        <square-skeleton
+          :boxProperties="{
+            bottom: '10px',
+            height: '200px'
+          }"
+        >
+        </square-skeleton>
+      </row>
+    </skeleton-loading>
+    <div class="l_candidates_listing" v-if="!loading">
+      <div class="md-title">Lisitry ny ho fidiana</div>
+      <v2-table :data="candidates" border>
+        <v2-table-column label="Anarana" prop="name"></v2-table-column>
+        <v2-table-column label="Fanampin'anarana" prop="firstName"></v2-table-column>
+        <v2-table-column label="Sarangana" prop="gender"></v2-table-column>
+      </v2-table>
+    </div>
   </div>
 </template>
 
@@ -21,9 +48,13 @@ export default {
   computed: {
     candidates () {
       return this.$store.state.candidates
+    },
+    loading () {
+      return this.$store.state.loading
     }
   },
   beforeMount () {
+    this.$store.dispatch('updateLoadingStatus', true)
     this.$store.dispatch('fetchCandidates')
   }
 }

@@ -34,7 +34,7 @@
       <md-card class="md-accent default-card" md-with-hover>
         <md-ripple>
           <md-card-header>
-            <div class="md-title">Lisitra ny fifidianana</div>
+            <div class="md-title">Lisitry ny fifidianana</div>
             <div class="md-subhead">Aseho</div>
           </md-card-header>
           <md-card-content>
@@ -70,7 +70,7 @@
       <md-card class="purple-card" md-with-hover>
         <md-ripple>
           <md-card-header>
-            <div class="md-title">Lisitra ny olona ho fidiana</div>
+            <div class="md-title">Lisitry ny olona ho fidiana</div>
             <div class="md-subhead">Aseho</div>
           </md-card-header>
           <md-card-content>
@@ -134,7 +134,7 @@ li {
 }
 .md-card {
   width: 320px;
-  margin: 4px;
+  margin: 6px 4px;
   display: inline-block;
   vertical-align: top;
 }

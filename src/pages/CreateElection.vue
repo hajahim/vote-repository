@@ -1,71 +1,89 @@
 <template>
-  <form novalidate class="md-layout" @submit.prevent="validateElection">
-    <md-card class="md-layout-item">
-      <md-card-header>
-        <div class="md-title">Fifidianana Vaovao</div>
-      </md-card-header>
-      <md-card-content>
-        <div class="md-layout">
-          <div class="md-layout-item">
-            <md-field :class="getValidationClass('description')">
-              <label for="electionDescription">Ny momban'ny fifidianana</label>
-              <md-input name="electionDescription" id="electionDescription" autocomplete="electionDescription" v-model="election.description"/>
-              <span class="md-error" v-if="!$v.election.description.required">Ampidiro ny momban'ny fifidianana</span>
-            </md-field>
+  <div>
+    <skeleton-loading v-if="loading">
+      <row
+        :gutter="{
+          bottom: '15px'
+        }"
+      >
+        <square-skeleton
+          :count="5"
+          :boxProperties="{
+            top: '10px',
+            height: '26px'
+          }"
+        >
+        </square-skeleton>
+      </row>
+    </skeleton-loading>
+    <form novalidate class="md-layout" @submit.prevent="validateElection" v-if="!loading">
+      <md-card class="md-layout-item">
+        <md-card-header>
+          <div class="md-title">Fifidianana Vaovao</div>
+        </md-card-header>
+        <md-card-content>
+          <div class="md-layout">
+            <div class="md-layout-item">
+              <md-field :class="getValidationClass('description')">
+                <label for="electionDescription">Ny momban'ny fifidianana</label>
+                <md-input name="electionDescription" id="electionDescription" autocomplete="electionDescription" v-model="election.description"/>
+                <span class="md-error" v-if="!$v.election.description.required">Ampidiro ny momban'ny fifidianana</span>
+              </md-field>
+            </div>
           </div>
-        </div>
-        <div class="md-layout">
-          <div class="md-layout-item">
-            <md-field :class="getValidationClass('voterNumber')">
-              <label for="electionVoterNumber">Isan'ny mpifidy</label>
-              <md-input type="number" name="electionVoterNumber" id="electionVoterNumber" autocomplete="electionVoterNumber" v-model="election.voterNumber"/>
-              <span class="md-error" v-if="!$v.election.voterNumber.isNumberNull">Ampidiro ny isan'ny mpifidy</span>
-            </md-field>
+          <div class="md-layout">
+            <div class="md-layout-item">
+              <md-field :class="getValidationClass('voterNumber')">
+                <label for="electionVoterNumber">Isan'ny mpifidy</label>
+                <md-input type="number" name="electionVoterNumber" id="electionVoterNumber" autocomplete="electionVoterNumber" v-model="election.voterNumber"/>
+                <span class="md-error" v-if="!$v.election.voterNumber.isNumberNull">Ampidiro ny isan'ny mpifidy</span>
+              </md-field>
+            </div>
           </div>
-        </div>
-        <div class="md-layout">
-          <div class="md-layout-item">
-            <md-field :class="getValidationClass('voted')">
-              <label for="electionVotedNumber">Isan'ny ho fidiana</label>
-              <md-input type="number" name="electionVotedNumber" id="electionVotedNumber" autocomplete="electionVotedNumber" v-model="election.voted"/>
-              <span class="md-error" v-if="!$v.election.voted.isNumberNull">Ampidiro ny isan'ny ho fidiana</span>
-            </md-field>
+          <div class="md-layout">
+            <div class="md-layout-item">
+              <md-field :class="getValidationClass('voted')">
+                <label for="electionVotedNumber">Isan'ny ho fidiana</label>
+                <md-input type="number" name="electionVotedNumber" id="electionVotedNumber" autocomplete="electionVotedNumber" v-model="election.voted"/>
+                <span class="md-error" v-if="!$v.election.voted.isNumberNull">Ampidiro ny isan'ny ho fidiana</span>
+              </md-field>
+            </div>
           </div>
-        </div>
-        <div class="md-layout md-gutter">
-          <div class="md-layout-item">
-            <md-subheader>Safidio ny olona ho fidiana</md-subheader>
-            <md-list class="list-viewer">
-              <md-list-item v-for="(candidat, index) in candidates" :key="index">
-                <md-checkbox v-model="election.candidats" :value="JSON.stringify(candidat)" />
-                {{candidat.name}} {{candidat.firstName}}
-              </md-list-item>
-            </md-list>
-            <md-field class="error-list" :class="getValidationClass('candidats')">
-              <span class="md-error" v-if="!$v.election.candidats.hasCandidatesChoosen">Ampidiro ny kandida</span>
-            </md-field>
+          <div class="md-layout md-gutter">
+            <div class="md-layout-item">
+              <md-subheader>Safidio ny olona ho fidiana</md-subheader>
+              <md-list class="list-viewer">
+                <md-list-item v-for="(candidat, index) in candidates" :key="index">
+                  <md-checkbox v-model="election.candidats" :value="JSON.stringify(candidat)" />
+                  {{candidat.name}} {{candidat.firstName}}
+                </md-list-item>
+              </md-list>
+              <md-field class="error-list" :class="getValidationClass('candidats')">
+                <span class="md-error" v-if="!$v.election.candidats.hasCandidatesChoosen">Ampidiro ny kandida</span>
+              </md-field>
+            </div>
+            <div class="md-layout-item">
+              <md-subheader v-if="selectedCandidates.length > 0">Ny Olona ho fidiana</md-subheader>
+              <md-list v-if="selectedCandidates.length > 0">
+                <md-list-item v-for="(candidat, index) in selectedCandidates" :key="index">
+                  <md-avatar>
+                    <img src="../assets/avatar-placeholder.png" alt="People">
+                  </md-avatar>
+                  <span class="md-list-item-text">{{candidat.name}} {{candidat.firstName}}</span>
+                </md-list-item>
+              </md-list>
+            </div>
           </div>
-          <div class="md-layout-item">
-            <md-subheader v-if="selectedCandidates.length > 0">Ny Olona ho fidiana</md-subheader>
-            <md-list v-if="selectedCandidates.length > 0">
-              <md-list-item v-for="(candidat, index) in selectedCandidates" :key="index">
-                <md-avatar>
-                  <img src="../assets/avatar-placeholder.png" alt="People">
-                </md-avatar>
-                <span class="md-list-item-text">{{candidat.name}} {{candidat.firstName}}</span>
-              </md-list-item>
-            </md-list>
-          </div>
-        </div>
-      </md-card-content>
+        </md-card-content>
 
-      <md-card-actions class="form_action">
-        <md-button type="submit" class="md-raised md-primary" :disabled="isSent">Amboarina</md-button>
-      </md-card-actions>
-    </md-card>
+        <md-card-actions class="form_action">
+          <md-button type="submit" class="md-raised md-primary" :disabled="isSent">Amboarina</md-button>
+        </md-card-actions>
+      </md-card>
 
-    <md-snackbar :md-active.sync="isElectionSent">Voatahiry ny fifidianana {{ lastElection }}!</md-snackbar>
-  </form>
+      <md-snackbar :md-active.sync="isElectionSent">Voatahiry ny fifidianana {{ lastElection }}!</md-snackbar>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -121,6 +139,9 @@ export default {
     isSent () {
       return this.$store.state.isSent
     },
+    loading () {
+      return this.$store.state.loading
+    },
     isElectionSent: {
       get: function () {
         return this.$store.state.isSaved
@@ -170,6 +191,7 @@ export default {
     }
   },
   beforeMount () {
+    this.$store.dispatch('updateLoadingStatus', true)
     this.$store.dispatch('fetchCandidates')
   }
 }

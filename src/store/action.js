@@ -7,6 +7,7 @@ export default {
   fetchCandidates ({commit}, playload) {
     Candidates.getCandidates().then(candidates => {
       commit('FETCH_CANDIDATES', candidates)
+      commit('UPDATE_LOADING_STATUS', false)
     })
   },
   saveCandidate ({commit}, playload) {
@@ -25,7 +26,11 @@ export default {
   fetchElections ({commit}, playload) {
     Elections.getElections().then(elections => {
       commit('FETCH_ELECTIONS', elections)
+      commit('UPDATE_LOADING_STATUS', false)
     })
+  },
+  updateLoadingStatus ({commit}, playload) {
+    commit('UPDATE_LOADING_STATUS', playload)
   },
   saveElection ({commit}, playload) {
     Elections.saveElections(playload).then(election => {

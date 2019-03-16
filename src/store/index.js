@@ -10,6 +10,7 @@ export default new Vuex.Store({
     candidates: [],
     elections: [],
     votes: [],
+    loading: true,
     votesElection: [],
     electionDisplay: null,
     isSent: false,
@@ -18,7 +19,7 @@ export default new Vuex.Store({
   getters: {
     getNumberVotesVictory: state => {
       if (state.electionDisplay) {
-        return (state.electionDisplay.voterNumber - state.electionDisplay.candidats.length) / 2 + 1
+        return Math.floor((state.electionDisplay.voterNumber - state.electionDisplay.candidats.length) / 2 - 1)
       }
       return 0
     },

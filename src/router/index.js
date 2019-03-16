@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import VueSkeletonLoading from 'vue-skeleton-loading'
 import HomePage from '@/pages/HomePage'
 import ListCandidates from '@/pages/ListCandidates'
 import CreateCandidate from '@/pages/CreateCandidate'
@@ -7,6 +8,7 @@ import CreateElection from '@/pages/CreateElection'
 import ListElections from '@/pages/ListElections'
 import ElectionDetails from '@/pages/ElectionDetails'
 
+Vue.use(VueSkeletonLoading)
 Vue.use(Router)
 
 const router = new Router({

@@ -1,14 +1,41 @@
 <template>
-  <div class="l_elections_listing">
-    <div class="md-title">Lisitry ny fifidianana</div>
-    <v2-table @select-change="selectElections" :data="elections" border>
-      <v2-table-column
-        type="selection"
-        width="45">
-      </v2-table-column>
-      <v2-table-column label="Momban'ny election" prop="description"></v2-table-column>
-      <v2-table-column label="Mariky ny fifidianana" prop="id"></v2-table-column>
-    </v2-table>
+  <div>
+    <skeleton-loading v-if="loading">
+      <row
+        :gutter="{
+          bottom: '15px'
+        }"
+      >
+        <square-skeleton
+          :count="1"
+          :boxProperties="{
+            top: '10px',
+            height: '26px'
+          }"
+        >
+        </square-skeleton>
+      </row>
+      <row>
+        <square-skeleton
+          :boxProperties="{
+            bottom: '10px',
+            height: '200px'
+          }"
+        >
+        </square-skeleton>
+      </row>
+    </skeleton-loading>
+    <div class="l_elections_listing" v-if="!loading">
+      <div class="md-title">Lisitry ny fifidianana</div>
+      <v2-table @select-change="selectElections" :data="elections" border>
+        <v2-table-column
+          type="selection"
+          width="45">
+        </v2-table-column>
+        <v2-table-column label="Momban'ny election" prop="description"></v2-table-column>
+        <v2-table-column label="Mariky ny fifidianana" prop="id"></v2-table-column>
+      </v2-table>
+    </div>
   </div>
 </template>
 
@@ -24,9 +51,13 @@ export default {
   computed: {
     elections () {
       return this.$store.state.elections
+    },
+    loading () {
+      return this.$store.state.loading
     }
   },
   beforeMount () {
+    this.$store.dispatch('updateLoadingStatus', true)
     this.$store.dispatch('fetchElections')
   },
   methods: {

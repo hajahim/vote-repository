@@ -32,7 +32,7 @@
       <md-list-item>
         <md-icon>menu</md-icon>
         <router-link class="md-list-item-text" to="/listeCandidate">
-          Lisitra ny olona ho fidiana
+          Lisitry ny olona ho fidiana
         </router-link>
       </md-list-item>
     </md-list>
