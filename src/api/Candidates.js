@@ -9,7 +9,7 @@ class Candidates extends IProvider {
   async getCandidates () {
     try {
       return new Promise((resolve, reject) => {
-        this.HTTP.get(`/api/jsonBlob/${this.collectionRef}`).then(candidatesCollection => {
+        this.getMethod(`/api/jsonBlob/${this.collectionRef}`).then(candidatesCollection => {
           resolve(candidatesCollection.data)
         })
       })
@@ -41,7 +41,7 @@ class Candidates extends IProvider {
       return new Promise((resolve, reject) => {
         this.getCandidates().then(candidates => {
           candidates.push(data)
-          this.HTTP.put(`/api/jsonBlob/${this.collectionRef}`, candidates).then(candidat => {
+          this.putMethod(`/api/jsonBlob/${this.collectionRef}`, candidates).then(candidat => {
             resolve(data)
           })
         })

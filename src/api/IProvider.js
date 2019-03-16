@@ -2,11 +2,33 @@ import axios from 'axios'
 
 class IProvider {
   constructor () {
-    this.settings = process.env.APP_SETTINGS.ApiSettings
+    this.apiSettings = process.env.APP_SETTINGS.ApiSettings
+    this.apiPath = window.location.origin + '/static'
+    this.isOffline = process.env.APP_SETTINGS.Offline.Activated === true
     this.HTTP = axios.create({
-      baseURL: this.settings.Uri
+      baseURL: this.apiSettings.Uri
     })
     this.addingIndicator()
+  }
+
+  async getMethod (url) {
+    if (!this.isOffline) {
+      return this.HTTP.get(url)
+    } else {
+      const baseUrl = this.apiPath + url
+      const urlDatabase = `${baseUrl}.json`
+      return this.HTTP.get(urlDatabase)
+    }
+  }
+
+  async putMethod (url, data) {
+    if (!this.isOffline) {
+      return this.HTTP.put(url, data)
+    } else {
+      return new Promise((resolve, reject) => {
+        resolve({})
+      })
+    }
   }
 
   addingIndicator () {
