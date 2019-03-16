@@ -42,6 +42,7 @@ export default {
   getElectionByKey ({commit}, playload) {
     Elections.getElectionById(playload).then(election => {
       commit('GET_ELECTION_BY_KEY', election)
+      commit('UPDATE_LOADING_STATUS', false)
     })
   },
   saveVotes ({commit}, playload) {
