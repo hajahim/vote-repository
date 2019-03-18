@@ -11,6 +11,7 @@ export default new Vuex.Store({
     elections: [],
     electionsGroup: [],
     votes: [],
+    procesVerbals: [],
     loading: true,
     votesElection: [],
     electionDisplay: null,

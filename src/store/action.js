@@ -3,6 +3,7 @@ import Candidates from '../api/Candidates'
 import Elections from '../api/Elections'
 import ElectionsGroup from '../api/ElectionsGroup'
 import Votes from '../api/Votes'
+import ProcesVerbal from '../api/ProcesVerbal'
 
 export default {
   fetchCandidates ({commit}, playload) {
@@ -36,6 +37,13 @@ export default {
   saveElection ({commit}, playload) {
     Elections.saveElections(playload).then(election => {
       commit('SAVE_ELECTION', election)
+      commit('UPDATE_STATUS_SEND', false)
+      commit('UPDATE_STATUS_SAVED', false)
+    })
+  },
+  saveProvesVerbal ({commit}, playlaod) {
+    ProcesVerbal.saveProcesVerbal(playlaod).then(procesVerbal => {
+      commit('SAVE_PROCES_VERBAL', procesVerbal)
       commit('UPDATE_STATUS_SEND', false)
       commit('UPDATE_STATUS_SAVED', false)
     })

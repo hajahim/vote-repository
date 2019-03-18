@@ -23,6 +23,9 @@ export default {
   SAVE_ELECTION: (state, playload) => {
     state.elections.push(playload)
   },
+  SAVE_PROCES_VERBAL: (state, playload) => {
+    state.procesVerbals.push(playload)
+  },
   SAVE_ELECTION_GROUP: (state, playload) => {
     state.electionsGroup.push(playload)
   },

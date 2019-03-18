@@ -48,7 +48,7 @@
         </square-skeleton>
       </row>
     </skeleton-loading>
-    <form v-if="!loading">
+    <section v-if="!loading && electionDisplay.type === 'normal'">
       <h3> Fifidianana {{electionDisplay.description}} </h3>
       <hr/>
       <p v-if="electionDisplay.candidats"> Isan'ny nilatsaka : {{electionDisplay.candidats.length}}</p>
@@ -89,15 +89,48 @@
           </template>
         </v2-table-column>
       </v2-table>
-    </form>
+    </section>
+    <section v-if="!loading && electionDisplay.type !== 'normal'">
+      <h3> Fifidianana {{electionDisplay.description}} </h3>
+      <hr/>
+      <p v-if="electionDisplay.candidats"> Isan'ny nilatsaka : {{electionDisplay.candidats.length}}</p>
+      <p v-if="electionDisplay.voterNumber"> Isan'ny mpifidy : {{electionDisplay.voterNumber}}</p>
+      <p v-if="electionDisplay.voted"> Isan'ny ho fidiana : {{electionDisplay.voted}}</p>
+      <v2-table :data="electionDisplay.candidats" border>
+        <v2-table-column label="Anaran'ny Kandida">
+          <template slot-scope="scope">
+            {{scope.row.name}} {{scope.row.firstName}}
+          </template>
+        </v2-table-column>
+        <v2-table-column label="Sarangana" prop="gender"></v2-table-column>
+        <v2-table-column :label="`PV Numero ${column}`" v-for="column in parseInt(electionDisplay.numberVotePlace)" :key="column">
+          <template slot-scope="scope">
+            <input type="number" name="vote" v-model="pvStat[scope.row.name][column - 1]" />
+          </template>
+        </v2-table-column>
+      </v2-table>
+      <section class="btn-content">
+        <md-button type="submit" class="md-raised md-primary" @click="savePv">Amboarina</md-button>
+      </section>
+    </section>
   </div>
 </template>
 
 <script>
 export default {
   name: 'ElectionDetails',
+  data () {
+    return {
+      pvStat: {}
+    }
+  },
   computed: {
     electionDisplay () {
+      /* eslint-disable */
+      this.$store.state.electionDisplay.candidats.forEach(candidat => {
+        this.pvStat[candidat.name] = []
+      })
+      /* eslint-enable */
       return this.$store.state.electionDisplay || {}
     },
     getNumberVotesVictory () {
@@ -118,6 +151,13 @@ export default {
     this.$store.dispatch('updateLoadingStatus', true)
   },
   methods: {
+    savePv: function (e) {
+      e.preventDefault()
+      const formData = {}
+      formData.electionId = this.electionDisplay.id
+      formData.pv = this.pvStat
+      this.$store.dispatch('saveProvesVerbal', formData)
+    },
     saveVotes: function (e, value) {
       e.preventDefault()
       const formData = {
@@ -140,5 +180,10 @@ export default {
 <style lang="scss">
 .warning-row {
   background-color: #ff33;
+}
+.btn-content {
+  display: flex;
+  justify-content: flex-end;
+  margin: 30px 0;
 }
 </style>

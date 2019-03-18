@@ -36,7 +36,7 @@
               <md-field :class="getValidationClass('voterNumber')">
                 <label for="electionVoterNumber">Isan'ny mpifidy</label>
                 <md-input type="number" name="electionVoterNumber" id="electionVoterNumber" autocomplete="electionVoterNumber" v-model="election.voterNumber"/>
-                <span class="md-error" v-if="!$v.election.voterNumber.isNumberNull">Ampidiro ny isan'ny mpifidy</span>
+                <span class="md-error" v-if="!$v.election.voterNumber.isNumberNotNull">Ampidiro ny isan'ny mpifidy</span>
               </md-field>
             </div>
           </div>
@@ -45,7 +45,27 @@
               <md-field :class="getValidationClass('voted')">
                 <label for="electionVotedNumber">Isan'ny ho fidiana</label>
                 <md-input type="number" name="electionVotedNumber" id="electionVotedNumber" autocomplete="electionVotedNumber" v-model="election.voted"/>
-                <span class="md-error" v-if="!$v.election.voted.isNumberNull">Ampidiro ny isan'ny ho fidiana</span>
+                <span class="md-error" v-if="!$v.election.voted.isNumberNotNull">Ampidiro ny isan'ny ho fidiana</span>
+              </md-field>
+            </div>
+          </div>
+          <div class="md-layout">
+            <div class="md-layout-item">
+              <md-field :class="getValidationClass('type')">
+                <label for="candidatGender">Sokajy</label>
+                <md-select v-model="election.type" name="candidatGender" id="candidatGender">
+                  <md-option value="pv">Fifidianana misy P.V</md-option>
+                  <md-option value="normal">Fifidianana mandeha isaky ny vato</md-option>
+                </md-select>
+              </md-field>
+            </div>
+          </div>
+          <div class="md-layout" v-if="election.type === 'pv'">
+            <div class="md-layout-item">
+              <md-field :class="getValidationClass('numberVotePlace')">
+                <label for="electionVotedNumber">Isan'ny birao fifidianana</label>
+                <md-input type="number" name="electionNumberVotePlace" id="electionNumberVotePlace" autocomplete="electionNumberVotePlace" v-model="election.numberVotePlace"/>
+                <span class="md-error" v-if="!$v.election.numberVotePlace.isValidVotePlace">Ampidiro ny isan'ny Birao fifidianana</span>
               </md-field>
             </div>
           </div>
@@ -92,7 +112,7 @@ import {
   required
 } from 'vuelidate/lib/validators'
 
-export function isNumberNull (value) {
+export function isNumberNotNull (value) {
   if (typeof value === 'string' && (value.length === 0 || parseInt(value) === 0)) {
     return false
   }
@@ -103,6 +123,16 @@ export function hasCandidatesChoosen (value) {
   return value.length > 0
 }
 
+export function isValidVotePlace (value, currentObject) {
+  if (currentObject.type === 'normal') {
+    return true
+  } else if (typeof value === 'string' && (value.length === 0 || parseInt(value) === 0)) {
+    return false
+  } else {
+    return value !== 0
+  }
+}
+
 export default {
   name: 'CreateElection',
   mixins: [validationMixin],
@@ -111,7 +141,9 @@ export default {
       election: {
         description: '',
         candidats: [],
+        type: 'normal',
         voterNumber: 0,
+        numberVotePlace: 0,
         voted: 0
       },
       lastElection: null
@@ -120,8 +152,9 @@ export default {
   validations: {
     election: {
       description: { required },
-      voterNumber: { isNumberNull },
-      voted: { isNumberNull },
+      voterNumber: { isNumberNotNull },
+      voted: { isNumberNotNull },
+      numberVotePlace: { isValidVotePlace },
       candidats: { hasCandidatesChoosen }
     }
   },
@@ -171,6 +204,7 @@ export default {
         description: '',
         candidats: [],
         voterNumber: 0,
+        type: 'normal',
         voted: 0
       }
     },
@@ -184,8 +218,12 @@ export default {
     getValidationClass (fieldName) {
       const field = this.$v.election[fieldName]
       if (field) {
+        const isRequired = (typeof field.$invalid !== 'undefined') && field.$invalid && field.$dirty
+        const isNumberNotNull = (typeof field.isNumberNotNull !== 'undefined') && !field.isNumberNotNull && field.$dirty
+        const hasValidCandidat = (typeof field.hasCandidatesChoosen !== 'undefined') && !field.hasCandidatesChoosen && field.$dirty
+        const isValidVotePlace = (typeof field.isValidVotePlace !== 'undefined') && !field.isValidVotePlace && field.$dirty
         return {
-          'md-invalid': (field.$invalid && field.$dirty) || (field.$isNumberNull && field.$dirty) || (field.hasCandidatesChoosen && field.$dirty)
+          'md-invalid': isRequired || isNumberNotNull || hasValidCandidat || isValidVotePlace
         }
       }
     }
