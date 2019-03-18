@@ -13,42 +13,6 @@
       <figcaption class="quote-by">— Romana 11: 5</figcaption>
     </figure>
     <div class="l_menu">
-      <md-card class="md-primary" md-with-hover>
-        <md-ripple>
-          <md-card-header>
-            <div class="md-title">Fifidianana vaovao</div>
-            <div class="md-subhead">Ampiana</div>
-          </md-card-header>
-          <md-card-content>
-            Raha toa ka hanamboatra fifidianana dia safidio ito.
-          </md-card-content>
-          <md-card-actions>
-            <md-button>
-              <router-link class="md-list-item-text" to="/createElection">
-                mididtra
-              </router-link>
-            </md-button>
-          </md-card-actions>
-        </md-ripple>
-      </md-card>
-      <md-card class="md-accent default-card" md-with-hover>
-        <md-ripple>
-          <md-card-header>
-            <div class="md-title">Lisitry ny fifidianana</div>
-            <div class="md-subhead">Aseho</div>
-          </md-card-header>
-          <md-card-content>
-            Safidio ito raha hijery ny fifidianana rehetra misy.
-          </md-card-content>
-          <md-card-actions>
-            <md-button>
-              <router-link class="md-list-item-text" to="/listElections">
-                mididtra
-              </router-link>
-            </md-button>
-          </md-card-actions>
-        </md-ripple>
-      </md-card>
       <md-card class="orange-card" md-with-hover>
         <md-ripple>
           <md-card-header>
@@ -79,6 +43,42 @@
           <md-card-actions>
             <md-button>
               <router-link class="md-list-item-text" to="/listeCandidate">
+                mididtra
+              </router-link>
+            </md-button>
+          </md-card-actions>
+        </md-ripple>
+      </md-card>
+      <md-card class="md-primary" md-with-hover>
+        <md-ripple>
+          <md-card-header>
+            <div class="md-title">Fifidianana vaovao</div>
+            <div class="md-subhead">Ampiana</div>
+          </md-card-header>
+          <md-card-content>
+            Raha toa ka hanamboatra fifidianana dia safidio ito.
+          </md-card-content>
+          <md-card-actions>
+            <md-button>
+              <router-link class="md-list-item-text" to="/createElection">
+                mididtra
+              </router-link>
+            </md-button>
+          </md-card-actions>
+        </md-ripple>
+      </md-card>
+      <md-card class="md-accent default-card" md-with-hover>
+        <md-ripple>
+          <md-card-header>
+            <div class="md-title">Lisitry ny fifidianana</div>
+            <div class="md-subhead">Aseho</div>
+          </md-card-header>
+          <md-card-content>
+            Safidio ito raha hijery ny fifidianana rehetra misy.
+          </md-card-content>
+          <md-card-actions>
+            <md-button>
+              <router-link class="md-list-item-text" to="/listElections">
                 mididtra
               </router-link>
             </md-button>
