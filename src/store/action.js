@@ -91,7 +91,7 @@ export default {
           })
           election.result = sortedResult.slice(0, election.voted).map(result => {
             return `${result.candidat.name} ${result.candidat.firstName} (${result.numberVote}) <br/>`
-          })
+          }).join(' ')
         })
         commit('GET_ELECTION_GROUP_BY_KEY', electionGroup)
         commit('UPDATE_LOADING_STATUS', false)

@@ -57,8 +57,8 @@
           type="selection"
           width="45">
         </v2-table-column>
-        <v2-table-column label="lohateny" prop="description"></v2-table-column>
-        <v2-table-column label="nandresy" prop="result"></v2-table-column>
+        <v2-table-column label="Lohateny" prop="description"></v2-table-column>
+        <v2-table-column label="Nandresy" prop="result"></v2-table-column>
       </v2-table>
     </form>
   </div>
