@@ -15,6 +15,7 @@ export default new Vuex.Store({
     loading: true,
     votesElection: [],
     electionDisplay: null,
+    pvElection: null,
     electionGroupDisplay: null,
     isSent: false,
     isSaved: false

@@ -32,6 +32,9 @@ export default {
   GET_ELECTION_BY_KEY: (state, playload) => {
     state.electionDisplay = playload
   },
+  GET_ELECTION_PV_BY_KEY: (state, playload) => {
+    state.pvElection = playload
+  },
   GET_ELECTION_GROUP_BY_KEY: (state, playload) => {
     state.electionGroupDisplay = playload
   },

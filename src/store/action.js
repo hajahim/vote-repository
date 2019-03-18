@@ -63,7 +63,16 @@ export default {
   },
   getElectionByKey ({commit}, playload) {
     Elections.getElectionById(playload).then(election => {
-      commit('GET_ELECTION_BY_KEY', election)
+      ProcesVerbal.getProcesVerbalByElectionId(election.id).then(procesVerbal => {
+        commit('GET_ELECTION_PV_BY_KEY', procesVerbal)
+        commit('GET_ELECTION_BY_KEY', election)
+        commit('UPDATE_LOADING_STATUS', false)
+      })
+    })
+  },
+  getElectionPvByKey ({commit}, playload) {
+    ProcesVerbal.getProcesVerbalByElectionId(playload).then(procesVerbal => {
+      commit('GET_ELECTION_PV_BY_KEY', procesVerbal)
       commit('UPDATE_LOADING_STATUS', false)
     })
   },

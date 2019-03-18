@@ -18,7 +18,7 @@ class ProcesVerbal extends IProvider {
     }
   }
 
-  async ggetProcesVerbalByElectionId (id) {
+  async getProcesVerbalByElectionId (id) {
     try {
       const procesVerbalCollection = []
       return new Promise((resolve, reject) => {
@@ -28,7 +28,7 @@ class ProcesVerbal extends IProvider {
               procesVerbalCollection.push(procesVerbal)
             }
           })
-          resolve(procesVerbalCollection)
+          resolve(procesVerbalCollection[0])
         })
       })
     } catch (error) {
@@ -41,8 +41,20 @@ class ProcesVerbal extends IProvider {
       data.id = this.generateID()
       return new Promise((resolve, reject) => {
         this.getProcesVerbal().then(procesVerbals => {
-          procesVerbals.push(data)
-          this.HTTP.put(`/api/jsonBlob/${this.collectionRef}`, procesVerbals).then(procesVerbal => {
+          let isExist = false
+          const retour = []
+          procesVerbals.forEach(function (procesVerbal) {
+            if (procesVerbal.electionId.toLowerCase() === data.electionId.toLowerCase()) {
+              retour.push(data)
+              isExist = true
+            } else {
+              retour.push(procesVerbal)
+            }
+          })
+          if (!isExist) {
+            retour.push(data)
+          }
+          this.HTTP.put(`/api/jsonBlob/${this.collectionRef}`, retour).then(procesVerbal => {
             resolve(data)
           })
         })
