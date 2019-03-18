@@ -13,18 +13,6 @@
       </md-list-item>
       <md-list-item>
         <md-icon>add</md-icon>
-        <router-link class="md-list-item-text" to="/createElection">
-          Fifidianana vaovao
-        </router-link>
-      </md-list-item>
-      <md-list-item>
-        <md-icon>menu</md-icon>
-        <router-link class="md-list-item-text" to="/listElections">
-          Lisitry ny fifidianana
-        </router-link>
-      </md-list-item>
-      <md-list-item>
-        <md-icon>add</md-icon>
         <router-link class="md-list-item-text" to="/createCandidate">
           Mampiditra Olona ho fidiana
         </router-link>
@@ -33,6 +21,18 @@
         <md-icon>menu</md-icon>
         <router-link class="md-list-item-text" to="/listeCandidate">
           Lisitry ny olona ho fidiana
+        </router-link>
+      </md-list-item>
+      <md-list-item>
+        <md-icon>add</md-icon>
+        <router-link class="md-list-item-text" to="/createElection">
+          Fifidianana vaovao
+        </router-link>
+      </md-list-item>
+      <md-list-item>
+        <md-icon>menu</md-icon>
+        <router-link class="md-list-item-text" to="/listElections">
+          Lisitry ny fifidianana
         </router-link>
       </md-list-item>
       <md-list-item>
