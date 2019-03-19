@@ -103,14 +103,19 @@
           </template>
         </v2-table-column>
         <v2-table-column label="Sarangana" prop="gender"></v2-table-column>
-        <v2-table-column :label="`PV Numero ${column}`" v-for="column in parseInt(electionDisplay.numberVotePlace)" :key="column">
+        <v2-table-column :render-header="(vueElement, iteration) => renderHeaderPv(vueElement, iteration)" v-for="iteration in parseInt(electionDisplay.numberVotePlace)" :key="iteration">
           <template slot-scope="scope">
-            <input type="number" name="vote" :disabled="typeof pvElections.pv !== 'undefined' && typeof pvElections.pv[scope.row.id][column - 1] !== 'undefined'" v-model="pvStat[scope.row.id][column - 1]" />
+            <input type="number" name="vote" :disabled="typeof pvElections.pv !== 'undefined' && typeof pvElections.pv[scope.row.id][iteration - 1] !== 'undefined'" v-model="pvStat[scope.row.id][iteration - 1]" />
+          </template>
+        </v2-table-column>
+        <v2-table-column label="Isan'ny Vato azo" v-if="pvElections.pv">
+          <template slot-scope="scope">
+            {{getResultPvDetails(scope.row.id)}}
           </template>
         </v2-table-column>
       </v2-table>
       <section class="btn-content">
-        <md-button type="submit" class="md-raised md-primary" @click="savePv">Amboarina</md-button>
+        <md-button type="submit" class="md-raised md-primary" @click="savePv">Jerena Valiny</md-button>
       </section>
     </section>
   </div>
@@ -121,7 +126,9 @@ export default {
   name: 'ElectionDetails',
   data () {
     return {
-      pvStat: {}
+      pvStat: {},
+      rowTotal: [],
+      totalPvVotes: 0
     }
   },
   computed: {
@@ -130,8 +137,22 @@ export default {
       let pvElection = this.pvElections
       const candidats =  this.$store.state.electionDisplay ?  this.$store.state.electionDisplay.candidats : []
       candidats.forEach(candidat => {
-        this.pvStat[candidat.id] = pvElection.pv? Object.assign({}, pvElection.pv[candidat.id]) : []
+        const pvSet = pvElection.pv ? Object.assign([], pvElection.pv[candidat.id]) : []
+        this.pvStat[candidat.id] = pvSet
       })
+      const pvKeys = Object.keys(this.pvStat)
+      const votePlaceNumber = this.$store.state.electionDisplay.numberVotePlace
+      this.rowTotal = []
+      this.totalPvVotes = 0
+      for(let iterate = 0 ; iterate < votePlaceNumber ; iterate++) {
+        const rowArray = []
+        pvKeys.forEach(key => {
+          const value = this.pvStat[key][iterate] ? this.pvStat[key][iterate] : 0
+          this.totalPvVotes += parseInt(value)
+          rowArray.push(value)
+        })
+        this.rowTotal.push(rowArray)
+      }
       /* eslint-enable */
       return this.$store.state.electionDisplay || {}
     },
@@ -156,6 +177,17 @@ export default {
     this.$store.dispatch('updateLoadingStatus', true)
   },
   methods: {
+    getResultPvDetails: function (userId) {
+      const totalUserVote = this.pvElections.pv[userId].reduce((aggregate, currentValue) => parseInt(aggregate) + parseInt(currentValue))
+      const totalVotes = this.totalPvVotes
+      const percentVote = ((totalUserVote / totalVotes) * 100).toFixed(2)
+      return `${totalUserVote} / ${totalVotes} (${percentVote}%)`
+    },
+    renderHeaderPv: function (e, column) {
+      const index = column.index - 1
+      const columnTotal = this.rowTotal[index - 1].reduce((aggregate, currentValue) => parseInt(aggregate) + parseInt(currentValue))
+      return e({name: 'labelHeader', template: `<label>PV Numero ${index} <br/> Isan'ny vato (${columnTotal})</label>`})
+    },
     savePv: function (e) {
       e.preventDefault()
       const formData = {}

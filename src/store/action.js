@@ -43,9 +43,15 @@ export default {
   },
   saveProvesVerbal ({commit}, playlaod) {
     ProcesVerbal.saveProcesVerbal(playlaod).then(procesVerbal => {
-      commit('SAVE_PROCES_VERBAL', procesVerbal)
-      commit('UPDATE_STATUS_SEND', false)
-      commit('UPDATE_STATUS_SAVED', false)
+      Elections.getElectionById(procesVerbal.electionId).then(election => {
+        ProcesVerbal.getProcesVerbalByElectionId(election.id).then(procesVerbal => {
+          commit('GET_ELECTION_PV_BY_KEY', procesVerbal)
+          commit('GET_ELECTION_BY_KEY', election)
+          commit('SAVE_PROCES_VERBAL', procesVerbal)
+          commit('UPDATE_STATUS_SEND', false)
+          commit('UPDATE_STATUS_SAVED', false)
+        })
+      })
     })
   },
   fetchElectionsGroup ({commit}, playload) {
