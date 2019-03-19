@@ -105,7 +105,7 @@
         <v2-table-column label="Sarangana" prop="gender"></v2-table-column>
         <v2-table-column :label="`PV Numero ${column}`" v-for="column in parseInt(electionDisplay.numberVotePlace)" :key="column">
           <template slot-scope="scope">
-            <input type="number" name="vote" v-model="pvStat[scope.row.id][column - 1]" />
+            <input type="number" name="vote" :disabled="typeof pvElections.pv !== 'undefined' && typeof pvElections.pv[scope.row.id][column - 1] !== 'undefined'" v-model="pvStat[scope.row.id][column - 1]" />
           </template>
         </v2-table-column>
       </v2-table>
@@ -130,16 +130,13 @@ export default {
       let pvElection = this.pvElections
       const candidats =  this.$store.state.electionDisplay ?  this.$store.state.electionDisplay.candidats : []
       candidats.forEach(candidat => {
-        this.pvStat[candidat.id] = this.pvElections.pv? this.pvElections.pv[candidat.id] : []
+        this.pvStat[candidat.id] = pvElection.pv? Object.assign({}, pvElection.pv[candidat.id]) : []
       })
       /* eslint-enable */
       return this.$store.state.electionDisplay || {}
     },
     pvElections () {
-      /* eslint-disable */
-      const pvElection = this.$store.state.pvElection || {}
-      /* eslint-enable */
-      return pvElection
+      return this.$store.state.pvElection || {}
     },
     getNumberVotesVictory () {
       return this.$store.getters.getNumberVotesVictory
