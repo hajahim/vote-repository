@@ -96,7 +96,7 @@
       <p v-if="electionDisplay.candidats"> Isan'ny nilatsaka : {{electionDisplay.candidats.length}}</p>
       <p v-if="electionDisplay.voterNumber"> Isan'ny mpifidy : {{electionDisplay.voterNumber}}</p>
       <p v-if="electionDisplay.voted"> Isan'ny ho fidiana : {{electionDisplay.voted}}</p>
-      <v2-table :data="electionDisplay.candidats" border>
+      <v2-table :data="electionDisplay.candidats" border :row-class-name="getRowClassName">
         <v2-table-column label="Anaran'ny Kandida">
           <template slot-scope="scope">
             {{scope.row.name}} <br/> {{scope.row.firstName}}
@@ -111,6 +111,11 @@
         <v2-table-column label="Isan'ny Vato azo" v-if="pvElections.pv">
           <template slot-scope="scope">
             <p v-html="getResultPvDetails(scope.row.id)"></p>
+          </template>
+        </v2-table-column>
+        <v2-table-column label="Laharana" v-if="pvElections.pv">
+          <template slot-scope="scope">
+            {{resultDetails[scope.row.id]}}
           </template>
         </v2-table-column>
       </v2-table>
@@ -128,7 +133,8 @@ export default {
     return {
       pvStat: {},
       rowTotal: [],
-      totalPvVotes: 0
+      totalPvVotes: 0,
+      resultDetails: {}
     }
   },
   computed: {
@@ -136,9 +142,16 @@ export default {
       /* eslint-disable */
       let pvElection = this.pvElections
       const candidats =  this.$store.state.electionDisplay ?  this.$store.state.electionDisplay.candidats : []
+      let resultTemp = {}
+      this.resultDetails = {}
       candidats.forEach(candidat => {
         const pvSet = pvElection.pv ? Object.assign([], pvElection.pv[candidat.id]) : []
         this.pvStat[candidat.id] = pvSet
+        resultTemp[candidat.id] = pvSet.reduce((aggregate, currentValue) => parseInt(aggregate) + parseInt(currentValue))
+      })
+      resultTemp = Object.keys(resultTemp).sort((next, previous) => {return resultTemp[previous] - resultTemp[next] })
+      resultTemp.forEach((result, index) => {
+        this.resultDetails[result] = index + 1
       })
       const pvKeys = Object.keys(this.pvStat)
       const votePlaceNumber = this.$store.state.electionDisplay.numberVotePlace
@@ -205,8 +218,12 @@ export default {
       this.$store.dispatch('saveVotes', formData)
     },
     getRowClassName ({row, rowIndex}) {
-      if (rowIndex < this.electionDisplay.voted) {
+      if (rowIndex < this.electionDisplay.voted && this.electionDisplay.type === 'normal') {
         return 'warning-row'
+      } else {
+        if (this.resultDetails[row.id] < this.electionDisplay.voted) {
+          return 'voted-row '
+        }
       }
       return ''
     }
@@ -217,6 +234,13 @@ export default {
 <style lang="scss">
 .warning-row {
   background-color: #ff33;
+}
+.voted-row {
+  background-color: var(--md-theme-default-accent, #BBC241);
+
+  .input {
+    border-width: 0;
+  }
 }
 .btn-content {
   display: flex;

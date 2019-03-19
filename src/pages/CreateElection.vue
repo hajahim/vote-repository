@@ -69,12 +69,24 @@
               </md-field>
             </div>
           </div>
+          <div class="md-layout">
+            <div class="md-layout-item">
+              <md-field>
+                <label for="candidatGenderFilter">Sivano ny sarangan'ny kandida</label>
+                <md-select v-model="candidateFilter" name="candidatGenderFilter" id="candidatGenderFilter">
+                  <md-option value="default">Izy rehetra</md-option>
+                  <md-option value="lahy">Lahy</md-option>
+                  <md-option value="vavy">Vavy</md-option>
+                </md-select>
+              </md-field>
+            </div>
+          </div>
           <div class="md-layout md-gutter">
             <div class="md-layout-item">
               <md-subheader>Safidio ny olona ho fidiana</md-subheader>
               <md-list class="list-viewer">
                 <md-list-item v-for="(candidat, index) in candidates" :key="index">
-                  <md-checkbox v-model="election.candidats" :value="JSON.stringify(candidat)" />
+                  <md-checkbox v-model="election.candidats" :value="candidatToJson(candidat)" />
                   {{candidat.name}} {{candidat.firstName}}
                 </md-list-item>
               </md-list>
@@ -89,7 +101,9 @@
                   <md-avatar>
                     <img src="../assets/avatar-placeholder.png" alt="People">
                   </md-avatar>
-                  <span class="md-list-item-text">{{candidat.name}} {{candidat.firstName}}</span>
+                  <span class="md-list-item-text">
+                    {{candidat.name}} {{candidat.firstName}}
+                  </span>
                 </md-list-item>
               </md-list>
             </div>
@@ -146,6 +160,7 @@ export default {
         numberVotePlace: 0,
         voted: 0
       },
+      candidateFilter: null,
       lastElection: null
     }
   },
@@ -160,12 +175,14 @@ export default {
   },
   computed: {
     candidates: function () {
-      return this.$store.state.candidates
+      const candidatesStore = Object.assign([], this.$store.state.candidates)
+      return this.candidateFilter && this.candidateFilter !== 'default' ? candidatesStore.filter(candidate => candidate.gender.toLowerCase() === this.candidateFilter.toLowerCase()) : candidatesStore
     },
     selectedCandidates: function () {
       const result = []
       this.election.candidats.forEach(function (candidat) {
-        result.push(JSON.parse(candidat))
+        const candidatObject = JSON.parse(candidat)
+        result.push(candidatObject)
       })
       return result
     },
@@ -185,6 +202,11 @@ export default {
     }
   },
   methods: {
+    candidatToJson: function (candidat) {
+      let candidatElection = Object.assign({}, candidat)
+      candidatElection.lotteryNumber = ''
+      return JSON.stringify(candidatElection)
+    },
     saveElection: function (e) {
       e.preventDefault()
       this.lastElection = this.election.description
@@ -193,9 +215,10 @@ export default {
       this.election.candidats.forEach(function (candidat) {
         electionData.candidats.push(JSON.parse(candidat))
       })
-      this.$store.dispatch('saveElection', electionData)
-      this.$store.dispatch('updateStatusSave', true)
-      this.$store.dispatch('updateStatusSend', true)
+      console.warn('OBJ', this.election.candidats)
+      // this.$store.dispatch('saveElection', electionData)
+      // this.$store.dispatch('updateStatusSave', true)
+      // this.$store.dispatch('updateStatusSend', true)
       this.clearForm()
     },
     clearForm: function () {
