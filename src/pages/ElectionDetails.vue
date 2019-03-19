@@ -99,18 +99,18 @@
       <v2-table :data="electionDisplay.candidats" border>
         <v2-table-column label="Anaran'ny Kandida">
           <template slot-scope="scope">
-            {{scope.row.name}} {{scope.row.firstName}}
+            {{scope.row.name}} <br/> {{scope.row.firstName}}
           </template>
         </v2-table-column>
         <v2-table-column label="Sarangana" prop="gender"></v2-table-column>
         <v2-table-column :render-header="(vueElement, iteration) => renderHeaderPv(vueElement, iteration)" v-for="iteration in parseInt(electionDisplay.numberVotePlace)" :key="iteration">
           <template slot-scope="scope">
-            <input type="number" name="vote" :disabled="typeof pvElections.pv !== 'undefined' && typeof pvElections.pv[scope.row.id][iteration - 1] !== 'undefined'" v-model="pvStat[scope.row.id][iteration - 1]" />
+            <input type="number" class="input-votes" name="vote" :disabled="typeof pvElections.pv !== 'undefined' && typeof pvElections.pv[scope.row.id][iteration - 1] !== 'undefined'" v-model="pvStat[scope.row.id][iteration - 1]" />
           </template>
         </v2-table-column>
         <v2-table-column label="Isan'ny Vato azo" v-if="pvElections.pv">
           <template slot-scope="scope">
-            {{getResultPvDetails(scope.row.id)}}
+            <p v-html="getResultPvDetails(scope.row.id)"></p>
           </template>
         </v2-table-column>
       </v2-table>
@@ -181,12 +181,12 @@ export default {
       const totalUserVote = this.pvElections.pv[userId].reduce((aggregate, currentValue) => parseInt(aggregate) + parseInt(currentValue))
       const totalVotes = this.totalPvVotes
       const percentVote = ((totalUserVote / totalVotes) * 100).toFixed(2)
-      return `${totalUserVote} / ${totalVotes} (${percentVote}%)`
+      return `${totalUserVote} / ${totalVotes} <br/> <span class="percent-text">(${percentVote}%)</span>`
     },
     renderHeaderPv: function (e, column) {
       const index = column.index - 1
       const columnTotal = this.rowTotal[index - 1].reduce((aggregate, currentValue) => parseInt(aggregate) + parseInt(currentValue))
-      return e({name: 'labelHeader', template: `<label>PV Numero ${index} <br/> Isan'ny vato (${columnTotal})</label>`})
+      return e({name: 'labelHeader', template: `<label>PV Numero ${index} <br/> Isan'ny vato <span class="count-value">(${columnTotal})</span></label>`})
     },
     savePv: function (e) {
       e.preventDefault()
@@ -222,5 +222,20 @@ export default {
   display: flex;
   justify-content: flex-end;
   margin: 30px 0;
+}
+.percent-text {
+  font-size: 16px;
+  font-weight: bold;
+}
+.count-value {
+  font-weight: bold;
+  color: #35495E;
+}
+.v2-table__cell,
+.v2-table td {
+  padding: 5px;
+}
+.input-votes {
+  max-width: 100%;
 }
 </style>
