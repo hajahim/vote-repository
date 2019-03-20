@@ -192,6 +192,9 @@ export default {
   },
   methods: {
     getResultPvDetails: function (userId) {
+      if (typeof this.pvElections.pv === 'undefined') {
+        return 'Tsia mbola manomboka'
+      }
       const totalUserVote = this.pvElections.pv[userId].reduce((aggregate, currentValue) => parseInt(aggregate) + parseInt(currentValue))
       const totalVotes = this.totalPvVotes
       const percentVote = ((totalUserVote / totalVotes) * 100).toFixed(2)
