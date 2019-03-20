@@ -215,10 +215,9 @@ export default {
       this.election.candidats.forEach(function (candidat) {
         electionData.candidats.push(JSON.parse(candidat))
       })
-      console.warn('OBJ', this.election.candidats)
-      // this.$store.dispatch('saveElection', electionData)
-      // this.$store.dispatch('updateStatusSave', true)
-      // this.$store.dispatch('updateStatusSend', true)
+      this.$store.dispatch('saveElection', electionData)
+      this.$store.dispatch('updateStatusSave', true)
+      this.$store.dispatch('updateStatusSend', true)
       this.clearForm()
     },
     clearForm: function () {

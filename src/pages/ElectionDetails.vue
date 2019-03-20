@@ -105,7 +105,8 @@
         <v2-table-column label="Sarangana" prop="gender"></v2-table-column>
         <v2-table-column :render-header="(vueElement, iteration) => renderHeaderPv(vueElement, iteration)" v-for="iteration in parseInt(electionDisplay.numberVotePlace)" :key="iteration">
           <template slot-scope="scope">
-            <input type="number" class="input-votes" name="vote" :disabled="typeof pvElections.pv !== 'undefined' && typeof pvElections.pv[scope.row.id][iteration - 1] !== 'undefined'" v-model="pvStat[scope.row.id][iteration - 1]" />
+            <input type="number" class="input-votes" name="vote" v-if="(typeof pvElections.pv !== 'undefined' && typeof pvElections.pv[scope.row.id][iteration - 1] === 'undefined') || typeof pvElections.pv === 'undefined'" v-model="pvStat[scope.row.id][iteration - 1]" />
+            <p v-if="typeof pvElections.pv !== 'undefined' && typeof pvElections.pv[scope.row.id][iteration - 1] !== 'undefined'">{{pvStat[scope.row.id][iteration - 1]}}</p>
           </template>
         </v2-table-column>
         <v2-table-column label="Isan'ny Vato azo" v-if="pvElections.pv">
@@ -147,7 +148,7 @@ export default {
       candidats.forEach(candidat => {
         const pvSet = pvElection.pv ? Object.assign([], pvElection.pv[candidat.id]) : []
         this.pvStat[candidat.id] = pvSet
-        resultTemp[candidat.id] = pvSet.reduce((aggregate, currentValue) => parseInt(aggregate) + parseInt(currentValue))
+        resultTemp[candidat.id] = pvSet.length > 0 ? pvSet.reduce((aggregate, currentValue) => parseInt(aggregate) + parseInt(currentValue)) : 0
       })
       resultTemp = Object.keys(resultTemp).sort((next, previous) => {return resultTemp[previous] - resultTemp[next] })
       resultTemp.forEach((result, index) => {
