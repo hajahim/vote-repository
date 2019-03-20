@@ -97,13 +97,14 @@
       <p v-if="electionDisplay.voterNumber"> Isan'ny mpifidy : {{electionDisplay.voterNumber}}</p>
       <p v-if="electionDisplay.voted"> Isan'ny ho fidiana : {{electionDisplay.voted}}</p>
       <v2-table :data="electionDisplay.candidats" border :row-class-name="getRowClassName">
+        <v2-table-column label="Numero" prop="lotteryNumber"></v2-table-column>
         <v2-table-column label="Anaran'ny Kandida">
           <template slot-scope="scope">
             {{scope.row.name}} <br/> {{scope.row.firstName}}
           </template>
         </v2-table-column>
         <v2-table-column label="Sarangana" prop="gender"></v2-table-column>
-        <v2-table-column :render-header="(vueElement, iteration) => renderHeaderPv(vueElement, iteration)" v-for="iteration in parseInt(electionDisplay.numberVotePlace)" :key="iteration">
+        <v2-table-column v-for="iteration in parseInt(electionDisplay.numberVotePlace)" :render-header="(vueElement, iteration) => renderHeaderPv(vueElement, iteration)" :key="iteration">
           <template slot-scope="scope">
             <input type="number" class="input-votes" name="vote" v-if="(typeof pvElections.pv !== 'undefined' && typeof pvElections.pv[scope.row.id][iteration - 1] === 'undefined') || typeof pvElections.pv === 'undefined'" v-model="pvStat[scope.row.id][iteration - 1]" />
             <p v-if="typeof pvElections.pv !== 'undefined' && typeof pvElections.pv[scope.row.id][iteration - 1] !== 'undefined'">{{pvStat[scope.row.id][iteration - 1]}}</p>
@@ -202,7 +203,7 @@ export default {
     },
     renderHeaderPv: function (e, column) {
       const index = column.index - 1
-      const columnTotal = this.rowTotal[index - 1].reduce((aggregate, currentValue) => parseInt(aggregate) + parseInt(currentValue))
+      const columnTotal = this.rowTotal[index - 1] ? this.rowTotal[index - 1].reduce((aggregate, currentValue) => parseInt(aggregate) + parseInt(currentValue)) : 0
       return e({name: 'labelHeader', template: `<label>PV Numero ${index} <br/> Isan'ny vato <span class="count-value">(${columnTotal})</span></label>`})
     },
     savePv: function (e) {
@@ -240,7 +241,7 @@ export default {
   background-color: #ff33;
 }
 .voted-row {
-  background-color: var(--md-theme-default-accent, #BBC241);
+  background-color: #ff33;
 
   .input {
     border-width: 0;

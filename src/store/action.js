@@ -35,6 +35,12 @@ export default {
     commit('UPDATE_LOADING_STATUS', playload)
   },
   saveElection ({commit}, playload) {
+    const candidats = playload.candidats.map((candidat, index) => {
+      const candidatTemp = Object.assign({}, candidat)
+      candidatTemp.lotteryNumber = index + 1
+      return candidatTemp
+    })
+    playload.candidats = candidats
     Elections.saveElections(playload).then(election => {
       commit('SAVE_ELECTION', election)
       commit('UPDATE_STATUS_SEND', false)
