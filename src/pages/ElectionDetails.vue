@@ -202,8 +202,8 @@ export default {
       return `${totalUserVote} / ${totalVotes} <br/> <span class="percent-text">(${percentVote}%)</span>`
     },
     renderHeaderPv: function (e, column) {
-      const index = column.index - 1
-      const columnTotal = this.rowTotal[index - 1] ? this.rowTotal[index - 1].reduce((aggregate, currentValue) => parseInt(aggregate) + parseInt(currentValue)) : 0
+      const index = column.index - 2
+      const columnTotal = typeof this.rowTotal[index - 1] !== 'undefined' ? this.rowTotal[index - 1].reduce((aggregate, currentValue) => parseInt(aggregate) + parseInt(currentValue)) : 0
       return e({name: 'labelHeader', template: `<label>PV Numero ${index} <br/> Isan'ny vato <span class="count-value">(${columnTotal})</span></label>`})
     },
     savePv: function (e) {
