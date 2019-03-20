@@ -93,10 +93,17 @@ export default {
       const promiseArray = []
       electionGroup.elections.forEach(function (election) {
         const promiseVotes = new Promise((resolve, reject) => {
-          Votes.getVotesByElectionId(election.id).then(vote => {
-            election.votes = vote
-            resolve(vote)
-          })
+          if (election.type === 'normal') {
+            Votes.getVotesByElectionId(election.id).then(vote => {
+              election.votes = vote
+              resolve(vote)
+            })
+          } else {
+            ProcesVerbal.getProcesVerbalByElectionId(election.id).then(procesVerbal => {
+              election.procesVerbal = procesVerbal
+              resolve(procesVerbal)
+            })
+          }
         })
         promiseArray.push(promiseVotes)
       })
@@ -104,12 +111,23 @@ export default {
         electionGroup.elections.forEach(function (election) {
           const result = []
           const votesElectionSearch = JSON.stringify(election.votes)
+          let totalVotes = 0
           election.candidats.forEach(function (candidat) {
-            const regexSearch = new RegExp(candidat.id, 'g')
             const dataUser = {}
             dataUser.candidat = candidat
-            dataUser.numberVote = votesElectionSearch.match(regexSearch) ? votesElectionSearch.match(regexSearch).length : 0
-            result.push(dataUser)
+            if (election.type === 'normal') {
+              const regexSearch = new RegExp(candidat.id, 'g')
+              dataUser.numberVote = votesElectionSearch.match(regexSearch) ? votesElectionSearch.match(regexSearch).length : 0
+              result.push(dataUser)
+            } else {
+              let numberVote = 0
+              election.procesVerbal.pv[candidat.id].forEach(function (value) {
+                numberVote += parseInt(value)
+              })
+              dataUser.numberVote = numberVote
+              totalVotes += numberVote
+              result.push(dataUser)
+            }
           })
           let sortedResult = result.sort(function (previous, next) {
             return next.numberVote - previous.numberVote
@@ -118,8 +136,10 @@ export default {
             votes.order = index + 1
             return votes
           })
+          election.totalVotes = totalVotes
           election.result = sortedResult.slice(0, election.voted).map(result => {
-            return `${result.candidat.name} ${result.candidat.firstName} (${result.numberVote}) <br/>`
+            const percent = ((result.numberVote / totalVotes) * 100).toFixed(2)
+            return `${result.candidat.name} ${result.candidat.firstName} (${percent}%) <br/>`
           }).join(' ')
         })
         commit('GET_ELECTION_GROUP_BY_KEY', electionGroup)

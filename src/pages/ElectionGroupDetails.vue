@@ -52,12 +52,14 @@
       <h3> Sokajin fifidianana {{electionGroupDisplay.description}} </h3>
       <hr/>
       <br/>
-      <v2-table  @select-change="seletionElectionDetails" :data="electionGroupDisplay.elections" border>
-        <v2-table-column
-          type="selection"
-          width="45">
+      <v2-table :data="electionGroupDisplay.elections" border>
+        <v2-table-column label="Lohateny" align="center">
+          <template slot-scope="scope">
+            <router-link class="md-list-item-text" :to="`/electionDetails/${scope.row.id}`">
+               {{scope.row.description}}
+            </router-link>
+          </template>
         </v2-table-column>
-        <v2-table-column label="Lohateny" prop="description"></v2-table-column>
         <v2-table-column label="Nandresy" prop="result"></v2-table-column>
       </v2-table>
     </form>
@@ -75,11 +77,6 @@ export default {
       return this.$store.state.loading
     }
   },
-  methods: {
-    seletionElectionDetails (election) {
-      this.$router.push(`/electionDetails/${election[0].id}`)
-    }
-  },
   mounted () {
     this.$store.dispatch('getElectionGroupByKey', this.$route.params.id)
   },
@@ -90,4 +87,8 @@ export default {
 </script>
 
 <style lang="scss">
+.v2-table .md-list-item-text {
+  justify-content: center;
+  align-items: center;
+}
 </style>
