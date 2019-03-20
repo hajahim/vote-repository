@@ -109,12 +109,12 @@
             <p v-if="typeof pvElections.pv !== 'undefined' && typeof pvElections.pv[scope.row.id][iteration - 1] !== 'undefined'">{{pvStat[scope.row.id][iteration - 1]}}</p>
           </template>
         </v2-table-column>
-        <v2-table-column label="Isan'ny Vato azo" v-if="pvElections.pv">
+        <v2-table-column label="Isan'ny Vato azo">
           <template slot-scope="scope">
             <p v-html="getResultPvDetails(scope.row.id)"></p>
           </template>
         </v2-table-column>
-        <v2-table-column label="Laharana" v-if="pvElections.pv">
+        <v2-table-column label="Laharana">
           <template slot-scope="scope">
             {{resultDetails[scope.row.id]}}
           </template>
@@ -222,7 +222,7 @@ export default {
       if (rowIndex < this.electionDisplay.voted && this.electionDisplay.type === 'normal') {
         return 'warning-row'
       } else {
-        if (this.resultDetails[row.id] < this.electionDisplay.voted) {
+        if (this.resultDetails[row.id] <= this.electionDisplay.voted) {
           return 'voted-row '
         }
       }
