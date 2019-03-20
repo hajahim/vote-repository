@@ -33,7 +33,7 @@
           width="45">
         </v2-table-column>
         <v2-table-column label="Momban'ny sokajin'fifidianana" prop="description"></v2-table-column>
-        <v2-table-column label="Mariky ny sokay" prop="id"></v2-table-column>
+        <v2-table-column label="Mariky ny sokajy" prop="id"></v2-table-column>
       </v2-table>
     </div>
   </div>
